@@ -8,7 +8,7 @@ abstract class IDeviceService {
   Future<ui.Size> getSizeInPixels();
 
   static final provider = Provider<IDeviceService>((ref) {
-    const channel = MethodChannel("org.catrobat.paintroid/device");
+    const channel = MethodChannel('org.catrobat.paintroid/device');
     return DeviceService(channel);
   });
 
@@ -25,12 +25,12 @@ class DeviceService implements IDeviceService {
   @override
   Future<ui.Size> getSizeInPixels() async {
     if (Platform.isAndroid) {
-      final height = await _methodChannel.invokeMethod("getHeightInPixels");
+      final height = await _methodChannel.invokeMethod('getHeightInPixels');
       return ui.Size(ui.window.physicalSize.width, height);
     } else if (Platform.isIOS) {
       return ui.window.physicalSize;
     } else {
-      throw "Unsupported platform";
+      throw 'Unsupported platform';
     }
   }
 }

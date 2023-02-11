@@ -7,7 +7,7 @@ Future<bool?> showDeleteDialog(BuildContext context, String name) =>
         context: context,
         pageBuilder: (_, __, ___) => DeleteProjectDialog(name: name),
         barrierDismissible: true,
-        barrierLabel: "Show delete project dialog box");
+        barrierLabel: 'Show delete project dialog box');
 
 class DeleteProjectDialog extends StatefulWidget {
   final String name;
@@ -23,12 +23,12 @@ class _DeleteProjectDialogState extends State<DeleteProjectDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
-      title: Text("Delete ${widget.name}"),
+      title: Text('Delete ${widget.name}'),
       actions: const [
         DialogElevatedButton(text: 'Cancel'),
         DialogTextButton(text: 'Delete'),
       ],
-      content: const Text("Do you really want to delete your project?"),
+      content: const Text('Do you really want to delete your project?'),
     );
   }
 }

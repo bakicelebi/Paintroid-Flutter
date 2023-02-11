@@ -8,7 +8,7 @@ Future<bool?> showDiscardChangesDialog(BuildContext context) =>
         context: context,
         pageBuilder: (_, __, ___) => const DiscardChangesDialog(),
         barrierDismissible: true,
-        barrierLabel: "Dismiss discard changes dialog box");
+        barrierLabel: 'Dismiss discard changes dialog box');
 
 class DiscardChangesDialog extends StatefulWidget {
   const DiscardChangesDialog({Key? key}) : super(key: key);
@@ -21,12 +21,12 @@ class _DiscardChangesDialogState extends State<DiscardChangesDialog> {
   @override
   Widget build(BuildContext context) {
     return const AlertDialog(
-      title: Text("Discard changes"),
+      title: Text('Discard changes'),
       actions: [
         DialogTextButton(text: 'Discard'),
         DialogElevatedButton(text: 'Save'),
       ],
-      content: Text("You have not saved your last changes. They will be lost!"),
+      content: Text('You have not saved your last changes. They will be lost!'),
     );
   }
 }

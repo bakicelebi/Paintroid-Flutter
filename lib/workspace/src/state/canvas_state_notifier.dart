@@ -26,7 +26,7 @@ class CanvasStateNotifier extends StateNotifier<CanvasState> {
         size: CanvasState.initial.size,
       );
 
-  void updateCachedImage() async {
+  Future<void> updateCachedImage() async {
     final recorder = _graphicFactory.createPictureRecorder();
     final canvas = _graphicFactory.createCanvasWithRecorder(recorder);
     final size = state.size;
@@ -46,7 +46,7 @@ class CanvasStateNotifier extends StateNotifier<CanvasState> {
     state = state.copyWith(cachedImage: Option.some(img));
   }
 
-  void resetCanvasWithNewCommands(Iterable<Command> commands) async {
+  Future<void> resetCanvasWithNewCommands(Iterable<Command> commands) async {
     _commandManager.clearHistory(newCommands: commands);
     if (commands.isEmpty) {
       state = state.copyWith(cachedImage: Option.none());

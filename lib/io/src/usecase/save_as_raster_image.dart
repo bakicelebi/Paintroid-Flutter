@@ -22,7 +22,7 @@ class SaveAsRasterImage {
   });
 
   Future<Result<Unit, Failure>> call(ImageMetaData data, Image image) async {
-    final nameWithExt = "${data.name}.${data.format.extension}";
+    final nameWithExt = '${data.name}.${data.format.extension}';
     if (!(await permissionService.requestAccessForSavingToPhotos())) {
       return Result.err(SaveImageFailure.permissionDenied);
     }

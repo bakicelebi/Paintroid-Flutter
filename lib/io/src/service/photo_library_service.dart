@@ -15,7 +15,7 @@ abstract class IPhotoLibraryService {
   static final provider = Provider<IPhotoLibraryService>(
     (ref) {
       const photoLibraryChannel =
-          MethodChannel("org.catrobat.paintroid/photo_library");
+          MethodChannel('org.catrobat.paintroid/photo_library');
       return PhotoLibraryService(ImagePicker(), photoLibraryChannel);
     },
   );
@@ -30,11 +30,11 @@ class PhotoLibraryService with LoggableMixin implements IPhotoLibraryService {
   @override
   Future<Result<Unit, Failure>> save(String name, Uint8List data) async {
     try {
-      final args = {"fileName": name, "data": data};
-      await photoLibraryChannel.invokeMethod("saveToPhotos", args);
+      final args = {'fileName': name, 'data': data};
+      await photoLibraryChannel.invokeMethod('saveToPhotos', args);
       return Result.ok(unit);
     } catch (err, stacktrace) {
-      logger.severe("Could not save photo to library", err, stacktrace);
+      logger.severe('Could not save photo to library', err, stacktrace);
       return Result.err(SaveImageFailure.unidentified);
     }
   }
@@ -47,7 +47,7 @@ class PhotoLibraryService with LoggableMixin implements IPhotoLibraryService {
           ? Result.err(LoadImageFailure.userCancelled)
           : Result.ok(await file.readAsBytes());
     } catch (err, stacktrace) {
-      logger.severe("Could not load photo from library", err, stacktrace);
+      logger.severe('Could not load photo from library', err, stacktrace);
       return Result.err(LoadImageFailure.unidentified);
     }
   }

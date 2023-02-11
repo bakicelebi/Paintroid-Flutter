@@ -8,7 +8,7 @@ import 'package:paintroid/io/io.dart';
 
 extension on File {
   String? get extension {
-    final list = path.split(".");
+    final list = path.split('.');
     if (list.isEmpty) return null;
     return list.last;
   }
@@ -45,13 +45,13 @@ class LoadImageFromFileManager with LoggableMixin {
     return await file.andThenAsync((file) async {
       try {
         switch (file.extension) {
-          case "jpg":
-          case "jpeg":
-          case "png":
+          case 'jpg':
+          case 'jpeg':
+          case 'png':
             return imageService
                 .import(await file.readAsBytes())
                 .map((img) => ImageFromFile.rasterImage(img));
-          case "catrobat-image":
+          case 'catrobat-image':
             final image = await catrobatImageSerializer
                 .fromBytes(await file.readAsBytes());
             return Result.ok(ImageFromFile.catrobatImage(
@@ -62,10 +62,10 @@ class LoadImageFromFileManager with LoggableMixin {
             return Result.err(LoadImageFailure.invalidImage);
         }
       } on FileSystemException catch (err, stacktrace) {
-        logger.severe("Failed to read file", err, stacktrace);
+        logger.severe('Failed to read file', err, stacktrace);
         return Result.err(LoadImageFailure.invalidImage);
       } catch (err, stacktrace) {
-        logger.severe("Could not load image", err, stacktrace);
+        logger.severe('Could not load image', err, stacktrace);
         return Result.err(LoadImageFailure.unidentified);
       }
     });

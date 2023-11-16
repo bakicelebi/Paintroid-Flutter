@@ -17,7 +17,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: subosito/flutter-action@v2.5.0
         with:
-          flutter-version: FLUTTER_VERSION
+          flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
       - name: Generate files
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2.5.0
         with:
-          flutter-version: FLUTTER_VERSION
+          flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
       - name: Static Analysis
@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2.5.0
         with:
-          flutter-version: FLUTTER_VERSION
+          flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
       - name: Unit Tests
@@ -61,7 +61,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2.5.0
         with:
-          flutter-version: FLUTTER_VERSION
+          flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
       - name: Unit Tests
@@ -76,7 +76,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: subosito/flutter-action@v2.5.0
         with:
-          flutter-version: FLUTTER_VERSION
+          flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
       - name: Build APK

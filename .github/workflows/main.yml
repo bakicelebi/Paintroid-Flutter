@@ -9,17 +9,32 @@ jobs:
 
   setup:
     runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-keys.outputs.key }}
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Cache build files
+        id: cache-keys
+        uses: actions/cache@v2
+        with:
+          path: |
+            .dart_tool
+            .pub-cache
+            build
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
+
       - name: Install Protoc
         uses: arduino/setup-protoc@v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: subosito/flutter-action@v2.5.0
         with:
           flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
+
       - name: Generate files
         run: |
           flutter pub get
@@ -27,17 +42,28 @@ jobs:
           dart pub global activate protoc_plugin
           chmod +x generate_protos.sh
           ./generate_protos.sh
-        
+
   analyze:
     needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache build files
+        uses: actions/cache@v2
+        with:
+          path: |
+            .dart_tool
+            .pub-cache
+            build
+          key: ${{ needs.setup.outputs.cache-key }}
+
       - uses: subosito/flutter-action@v2.5.0
         with:
           flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
+
       - name: Static Analysis
         run: flutter analyze
 
@@ -46,11 +72,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache build files
+        uses: actions/cache@v2
+        with:
+          path: |
+            .dart_tool
+            .pub-cache
+            build
+          key: ${{ needs.setup.outputs.cache-key }}
+
       - uses: subosito/flutter-action@v2.5.0
         with:
           flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
+
       - name: Unit Tests
         run: flutter test test/unit
 
@@ -59,13 +96,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache build files
+        uses: actions/cache@v2
+        with:
+          path: |
+            .dart_tool
+            .pub-cache
+            build
+          key: ${{ needs.setup.outputs.cache-key }}
+
       - uses: subosito/flutter-action@v2.5.0
         with:
           flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
-      - name: Unit Tests
-        run: flutter test test/unit
+
       - name: Widget Tests
         run: flutter test test/widget
 
@@ -74,13 +120,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Cache build files
+        uses: actions/cache@v2
+        with:
+          path: |
+            .dart_tool
+            .pub-cache
+            build
+          key: ${{ needs.setup.outputs.cache-key }}
+
       - uses: subosito/flutter-action@v2.5.0
         with:
           flutter-version: $FLUTTER_VERSION
           channel: 'stable'
           cache: true
+
       - name: Build APK
         run: flutter build apk --release
+
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
         with:

@@ -1,16 +1,12 @@
 name: Build, Test and Analyze
 
-on: [ push, pull_request ]
+on: [push, pull_request]
 
 jobs:
-  main:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install Protoc
-        uses: arduino/setup-protoc@v2
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: subosito/flutter-action@v2.5.0
         with:
           flutter-version: '3.10.5'
@@ -23,18 +19,38 @@ jobs:
           dart pub global activate protoc_plugin
           chmod +x generate_protos.sh
           ./generate_protos.sh
-      - name: Static Analysis
-        run: flutter analyze
-      - name: Unit Tests
-        run: flutter test test/unit
-      - name: Widget Tests
-        run: flutter test test/widget
       - name: Build release package
         run: flutter build apk --release
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: apk
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
-            
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  analyze:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+      - name: Static Analysis
+        run: flutter analyze
+
+  test:
+    needs: analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+      - name: Unit Tests
+        run: flutter test test/unit
+      - name: Widget Tests
+        run: flutter test test/widget

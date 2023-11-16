@@ -3,7 +3,6 @@ name: Build, Test and Analyze
 on: [push, pull_request]
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   FLUTTER_VERSION: '3.10.5'
 
 jobs:
@@ -15,7 +14,7 @@ jobs:
       - name: Install Protoc
         uses: arduino/setup-protoc@v2
         with:
-          repo-token: GITHUB_TOKEN
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - uses: subosito/flutter-action@v2.5.0
         with:
           flutter-version: FLUTTER_VERSION
@@ -69,3 +68,22 @@ jobs:
         run: flutter test test/unit
       - name: Widget Tests
         run: flutter test test/widget
+
+  build-apk:
+    needs: widget-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: FLUTTER_VERSION
+          channel: 'stable'
+          cache: true
+      - name: Build APK
+        run: flutter build apk --release
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk

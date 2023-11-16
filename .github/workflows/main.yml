@@ -3,7 +3,7 @@ name: Build, Test and Analyze
 on: [push, pull_request]
 
 jobs:
-  setup: &default_setup
+  analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,34 +23,77 @@ jobs:
           dart pub global activate protoc_plugin
           chmod +x generate_protos.sh
           ./generate_protos.sh
-
-  analyze:
-    <<: *default_setup
-    steps:
-      - <<: *default_setup.steps
       - name: Analyze
         run: flutter analyze
 
   unit-tests:
-    <<: *default_setup
+    runs-on: ubuntu-latest
     steps:
-      - <<: *default_setup.steps
+      - uses: actions/checkout@v3
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+      - name: Setup
+        run: |
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+          dart pub global activate protoc_plugin
+          chmod +x generate_protos.sh
+          ./generate_protos.sh
       - name: Unit Tests
         run: flutter test test/unit
 
   widget-tests:
-    <<: *default_setup
+    runs-on: ubuntu-latest
     steps:
-      - <<: *default_setup.steps
+      - uses: actions/checkout@v3
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+      - name: Setup
+        run: |
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+          dart pub global activate protoc_plugin
+          chmod +x generate_protos.sh
+          ./generate_protos.sh
       - name: Widget Tests
         run: flutter test test/widget
 
   build-apk:
-    <<: *default_setup
+    runs-on: ubuntu-latest
     steps:
-      - <<: *default_setup.steps
+      - uses: actions/checkout@v3
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+      - name: Setup
+        run: |
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+          dart pub global activate protoc_plugin
+          chmod +x generate_protos.sh
+          ./generate_protos.sh
       - name: Build release package
-        run: flutter build apk --release
+        run: flutter build apk --split-per-abi
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
         with:

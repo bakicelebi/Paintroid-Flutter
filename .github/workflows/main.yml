@@ -22,6 +22,7 @@ jobs:
             .dart_tool
             .pub-cache
             build
+            lib
           key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - name: Install Protoc
@@ -56,6 +57,7 @@ jobs:
             .dart_tool
             .pub-cache
             build
+            lib
           key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2.5.0
@@ -68,7 +70,7 @@ jobs:
         run: flutter analyze
 
   unit-tests:
-    needs: analyze
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -80,6 +82,7 @@ jobs:
             .dart_tool
             .pub-cache
             build
+            lib
           key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2.5.0
@@ -92,7 +95,7 @@ jobs:
         run: flutter test test/unit
 
   widget-tests:
-    needs: unit-tests
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -104,6 +107,7 @@ jobs:
             .dart_tool
             .pub-cache
             build
+            lib
           key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2.5.0
@@ -116,7 +120,7 @@ jobs:
         run: flutter test test/widget
 
   build-apk:
-    needs: widget-tests
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -128,8 +132,9 @@ jobs:
             .dart_tool
             .pub-cache
             build
+            lib
           key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
-          
+
       - uses: subosito/flutter-action@v2.5.0
         with:
           flutter-version: $FLUTTER_VERSION

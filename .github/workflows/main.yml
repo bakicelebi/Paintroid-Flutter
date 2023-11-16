@@ -30,7 +30,7 @@ jobs:
       - name: Static Analysis
         uses: .jobs.install-dependencies
         run: flutter analyze
-      - name: Unit Tests
+      #- name: Unit Tests
       #   run: flutter test test/unit
       # - name: Widget Tests
       #   run: flutter test test/widget

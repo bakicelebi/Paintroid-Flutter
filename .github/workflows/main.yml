@@ -23,6 +23,7 @@ jobs:
             .pub-cache
             build
             lib
+            test/unit
           key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - name: Install Protoc
@@ -83,6 +84,7 @@ jobs:
             .pub-cache
             build
             lib
+            test/unit
           key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2.5.0
@@ -108,6 +110,7 @@ jobs:
             .pub-cache
             build
             lib
+            test/unit
           key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2.5.0

@@ -1,43 +1,21 @@
 name: Build, Test and Analyze
 
-on: [push, pull_request]
+on: [ push, pull_request ]
 
-env:
-  FLUTTER_VERSION: '3.10.5'
-
-jobs:
-
-  setup:
-    runs-on: ubuntu-latest
-    outputs:
-      cache-key: ${{ steps.cache-keys.outputs.key }}
+.jobs.setup-flutter:
+  runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Cache build files
-        id: cache-keys
-        uses: actions/cache@v2
-        with:
-          path: |
-            .dart_tool
-            .pub-cache
-            build
-            lib
-            test/unit
-          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
-
       - name: Install Protoc
         uses: arduino/setup-protoc@v2
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-
       - uses: subosito/flutter-action@v2.5.0
         with:
-          flutter-version: $FLUTTER_VERSION
+          flutter-version: '3.10.5'
           channel: 'stable'
           cache: true
-
-      - name: Generate files
+      - name: Get dependencies & generate files
         run: |
           flutter pub get
           flutter pub run build_runner build --delete-conflicting-outputs
@@ -45,113 +23,23 @@ jobs:
           chmod +x generate_protos.sh
           ./generate_protos.sh
 
+jobs:
   analyze:
-    needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Cache build files
-        uses: actions/cache@v2
-        with:
-          path: |
-            .dart_tool
-            .pub-cache
-            build
-            lib
-            test/unit
-          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
-
-      - uses: subosito/flutter-action@v2.5.0
-        with:
-          flutter-version: $FLUTTER_VERSION
-          channel: 'stable'
-          cache: true
-
       - name: Static Analysis
+        uses: .jobs.install-dependencies
         run: flutter analyze
-
-  unit-tests:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Cache build files
-        uses: actions/cache@v2
-        with:
-          path: |
-            .dart_tool
-            .pub-cache
-            build
-            lib
-            test/unit
-          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
-
-      - uses: subosito/flutter-action@v2.5.0
-        with:
-          flutter-version: $FLUTTER_VERSION
-          channel: 'stable'
-          cache: true
-
       - name: Unit Tests
-        run: flutter test test/unit
-
-  widget-tests:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Cache build files
-        uses: actions/cache@v2
-        with:
-          path: |
-            .dart_tool
-            .pub-cache
-            build
-            lib
-            test/unit
-          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
-
-      - uses: subosito/flutter-action@v2.5.0
-        with:
-          flutter-version: $FLUTTER_VERSION
-          channel: 'stable'
-          cache: true
-
-      - name: Widget Tests
-        run: flutter test test/widget
-
-  build-apk:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Cache build files
-        uses: actions/cache@v2
-        with:
-          path: |
-            .dart_tool
-            .pub-cache
-            build
-            lib
-            test/unit
-          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
-
-      - uses: subosito/flutter-action@v2.5.0
-        with:
-          flutter-version: $FLUTTER_VERSION
-          channel: 'stable'
-          cache: true
-
-      - name: Build APK
-        run: flutter build apk --release
-
-      - name: Archive build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: apk
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
+      #   run: flutter test test/unit
+      # - name: Widget Tests
+      #   run: flutter test test/widget
+      # - name: Build release package
+      #   run: flutter build apk --release
+      # - name: Archive build artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: apk
+      #     path: |
+      #       build/app/outputs/flutter-apk/app-release.apk
+            

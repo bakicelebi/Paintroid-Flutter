@@ -56,7 +56,7 @@ jobs:
             .dart_tool
             .pub-cache
             build
-          key: ${{ needs.setup.outputs.cache-key }}
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2.5.0
         with:
@@ -80,7 +80,7 @@ jobs:
             .dart_tool
             .pub-cache
             build
-          key: ${{ needs.setup.outputs.cache-key }}
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2.5.0
         with:
@@ -104,7 +104,7 @@ jobs:
             .dart_tool
             .pub-cache
             build
-          key: ${{ needs.setup.outputs.cache-key }}
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
 
       - uses: subosito/flutter-action@v2.5.0
         with:
@@ -128,8 +128,8 @@ jobs:
             .dart_tool
             .pub-cache
             build
-          key: ${{ needs.setup.outputs.cache-key }}
-
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pubspec.lock') }}
+          
       - uses: subosito/flutter-action@v2.5.0
         with:
           flutter-version: $FLUTTER_VERSION

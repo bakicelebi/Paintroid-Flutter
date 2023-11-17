@@ -16,6 +16,8 @@ protoc:
 run:
 	flutter run
 
+
+
 all: clean pubget build protoc run
 
 setup: clean pubget build protoc

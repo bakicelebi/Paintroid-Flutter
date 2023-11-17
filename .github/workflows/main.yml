@@ -17,12 +17,7 @@ jobs:
           channel: 'stable'
           cache: true
       - name: Setup
-        run: |
-          flutter pub get
-          flutter pub run build_runner build --delete-conflicting-outputs
-          dart pub global activate protoc_plugin
-          chmod +x generate_protos.sh
-          ./generate_protos.sh
+        run: make setup
       - name: Analyze
         run: flutter analyze
 
@@ -40,12 +35,7 @@ jobs:
           channel: 'stable'
           cache: true
       - name: Setup
-        run: |
-          flutter pub get
-          flutter pub run build_runner build --delete-conflicting-outputs
-          dart pub global activate protoc_plugin
-          chmod +x generate_protos.sh
-          ./generate_protos.sh
+        run: make setup
       - name: Unit Tests
         run: flutter test test/unit
 
@@ -63,12 +53,7 @@ jobs:
           channel: 'stable'
           cache: true
       - name: Setup
-        run: |
-          flutter pub get
-          flutter pub run build_runner build --delete-conflicting-outputs
-          dart pub global activate protoc_plugin
-          chmod +x generate_protos.sh
-          ./generate_protos.sh
+        run: make setup
       - name: Widget Tests
         run: flutter test test/widget
 
@@ -86,17 +71,11 @@ jobs:
           channel: 'stable'
           cache: true
       - name: Setup
-        run: |
-          flutter pub get
-          flutter pub run build_runner build --delete-conflicting-outputs
-          dart pub global activate protoc_plugin
-          chmod +x generate_protos.sh
-          ./generate_protos.sh
+        run: make setup
       - name: Build release package
         run: flutter build apk --release --target-platform=android-arm
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: apk
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk

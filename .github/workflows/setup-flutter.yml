@@ -1,0 +1,32 @@
+name: Setup Flutter Environment
+on:
+  workflow_call:
+    inputs:
+      flutter-version:
+        required: true
+        type: string
+      channel:
+        required: false
+        default: 'stable'
+        type: string
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: ${{ inputs.flutter-version }}
+          channel: ${{ inputs.channel }}
+          cache: true
+      - name: Get dependencies & generate files
+        run: |
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+          dart pub global activate protoc_plugin
+          chmod +x generate_protos.sh
+          ./generate_protos.sh

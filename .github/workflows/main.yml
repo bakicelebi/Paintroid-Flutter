@@ -1,33 +1,122 @@
 name: Build, Test and Analyze
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  main:
+  riverpod-graph:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }} 
+          fetch-depth: 0 
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+      - name: LS current directory
+        run: ls
+      - name: Clone Riverpod Repository
+        run: git clone https://github.com/rrousselGit/riverpod.git
+      - name: Run Riverpod Graph    
+        run: cd riverpod/packages/riverpod_graph && ls && dart run riverpod_graph $GITHUB_WORKSPACE/packages -f d2 > $GITHUB_WORKSPACE/pocketpaint.d2
+      - name: Remove first 11 lines in d2 file 
+        run: ls && sed -i '1,10d' pocketpaint.d2 && cat pocketpaint.d2
+      - name: Install D2
+        run: curl -fsSL https://d2lang.com/install.sh | sh -s --
+      - name: Export D2
+        run: export PATH=$HOME/.local/bin:$PATH
+      - name: Generate Image
+        run: d2 -l elk --scale 0.5 pocketpaint.d2 pocketpaint.png
+      - name: LS current directory
+        run: ls
+
+      - name: Commit and Push Image
+        run: |
+          git config --global user.name 'Catrobat'
+          git config --global user.email 'catrobat@users.noreply.github.com'
+          git add pocketpaint.png
+          git commit -m "Add generated image"
+          git push origin ${{ github.head_ref }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+  analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2.10.0
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
         with:
-          flutter-version: "3.10.5"
-          channel: "stable"
-          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
-          cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
-          architecture: x64 # optional, x64 or arm64
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
       - name: Setup
-        run: |
-          make get
-      - name: Static Analysis
+        run: make get
+      - name: Analyze
         run: make lint
+
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+      - name: Setup
+        run: make get
       - name: Unit Tests
         run: melos run test:unit
+
+  widget-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+      - name: Setup
+        run: make get
       - name: Widget Tests
         run: melos run test:widget
+
+  build-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: subosito/flutter-action@v2.5.0
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+      - name: Setup
+        run: make get
       - name: Build release package
-        run: flutter build apk --release
+        run: flutter build apk --release --target-platform=android-arm
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: apk
-          path: |
-            build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+
+          

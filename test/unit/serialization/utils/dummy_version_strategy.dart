@@ -4,11 +4,13 @@ import 'package:paintroid/core/json_serialization/versioning/version_strategy.da
 
 class DummyVersionStrategy implements IVersionStrategy {
   final int drawPathCommandVersion;
+  final int shapesCommandVersion;
   final int catrobatImageVersion;
 
   DummyVersionStrategy(
       {this.drawPathCommandVersion =
           SerializerVersion.DRAW_PATH_COMMAND_VERSION,
+      this.shapesCommandVersion = SerializerVersion.SHAPES_COMMAND_VERSION,
       this.catrobatImageVersion = SerializerVersion.CATROBAT_IMAGE_VERSION});
 
   @override
@@ -16,4 +18,7 @@ class DummyVersionStrategy implements IVersionStrategy {
 
   @override
   int getDrawPathCommandVersion() => drawPathCommandVersion;
+
+  @override
+  int getShapesCommandVersion() => shapesCommandVersion;
 }

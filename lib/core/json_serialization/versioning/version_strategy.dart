@@ -6,6 +6,7 @@ import 'package:paintroid/core/json_serialization/versioning/serializer_version.
 abstract class IVersionStrategy {
   int getCatrobatImageVersion();
   int getDrawPathCommandVersion();
+  int getShapesCommandVersion();
 }
 
 class ProductionVersionStrategy implements IVersionStrategy {
@@ -15,6 +16,9 @@ class ProductionVersionStrategy implements IVersionStrategy {
   @override
   int getDrawPathCommandVersion() =>
       SerializerVersion.DRAW_PATH_COMMAND_VERSION;
+
+  @override
+  int getShapesCommandVersion() => SerializerVersion.SHAPES_COMMAND_VERSION;
 }
 
 class VersionStrategyManager {

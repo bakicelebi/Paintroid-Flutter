@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 
 // Project imports:
 import 'package:paintroid/core/commands/command_implementation/graphic/draw_path_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shapes_command.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 
 abstract class Command with EquatableMixin {
@@ -15,6 +16,8 @@ abstract class Command with EquatableMixin {
     switch (type) {
       case SerializerType.DRAW_PATH_COMMAND:
         return DrawPathCommand.fromJson(json);
+        case SerializerType.SHAPES_COMMAND:
+        return ShapesCommand.fromJson(json);
       default:
         return DrawPathCommand.fromJson(json);
     }

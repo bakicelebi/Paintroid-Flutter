@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 // Package imports:
+import 'package:paintroid/core/providers/object/tools/shapes_tool_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:toast/toast.dart';
 
@@ -62,6 +63,12 @@ class ToolBoxState extends _$ToolBoxState {
         state = state.copyWith(
           currentTool: ref.read(eraserToolProvider),
           currentToolType: ToolType.ERASER,
+        );
+        break;
+      case ToolType.SHAPES:
+        state = state.copyWith(
+          currentTool: ref.read(shapesToolProvider),
+          currentToolType: ToolType.SHAPES,
         );
         break;
       default:

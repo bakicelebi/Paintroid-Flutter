@@ -13,7 +13,7 @@ import 'package:paintroid/core/providers/object/device_service.dart';
 import 'package:paintroid/core/providers/object/file_service.dart';
 import 'package:paintroid/core/providers/object/image_service.dart';
 import 'package:paintroid/core/providers/object/io_handler.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/canvas_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
 import 'package:paintroid/ui/pages/landing_page/components/custom_action_button.dart';
@@ -65,7 +65,7 @@ class _LandingPageState extends ConsumerState<LandingPage> {
   }
 
   void _clearCanvas() {
-    ref.read(canvasStateProvider.notifier)
+    ref.read(canvasProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();

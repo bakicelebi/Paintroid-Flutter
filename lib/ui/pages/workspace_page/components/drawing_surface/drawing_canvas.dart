@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/canvas_dirty_notifier.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/canvas_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/canvas_painter.dart';
@@ -22,7 +22,7 @@ class DrawingCanvas extends ConsumerStatefulWidget {
 
 class _DrawingCanvasState extends ConsumerState<DrawingCanvas> {
   late final _toolBoxStateNotifier = ref.read(toolBoxStateProvider.notifier);
-  late final _canvasStateNotifier = ref.read(canvasStateProvider.notifier);
+  late final _canvasStateNotifier = ref.read(canvasProvider.notifier);
   late final _canvasDirtyNotifier =
       ref.read(CanvasDirtyNotifier.provider.notifier);
 

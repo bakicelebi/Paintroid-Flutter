@@ -10,14 +10,13 @@ import 'package:paintroid/core/enums/tool_types.dart';
 import 'package:paintroid/core/providers/object/tools/brush_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/eraser_tool_provider.dart';
 import 'package:paintroid/core/providers/object/tools/hand_tool_provider.dart';
-import 'package:paintroid/core/providers/state/tools/brush/brush_tool_state_provider.dart';
 import 'package:paintroid/core/providers/state/tools/toolbox/toolbox_state_data.dart';
 import 'package:paintroid/core/tools/tool_data.dart';
 
 part 'toolbox_state_provider.g.dart';
 
 @riverpod
-class ToolBoxState extends _$ToolBoxState {
+class ToolBoxStateProvider extends _$ToolBoxStateProvider {
   void didTapDown(Offset position) {
     state.currentTool.onDown(position);
     state = state.copyWith(isDown: true);
@@ -40,9 +39,6 @@ class ToolBoxState extends _$ToolBoxState {
   void switchTool(ToolData data) {
     switch (data.type) {
       case ToolType.BRUSH:
-        ref
-            .read(brushToolStateProvider.notifier)
-            .updateBlendMode(BlendMode.srcOver);
         state = state.copyWith(
           currentTool: ref.read(brushToolProvider),
           currentToolType: ToolType.BRUSH,
@@ -56,18 +52,14 @@ class ToolBoxState extends _$ToolBoxState {
         );
         break;
       case ToolType.ERASER:
-        ref
-            .read(brushToolStateProvider.notifier)
-            .updateBlendMode(BlendMode.clear);
+        
         state = state.copyWith(
           currentTool: ref.read(eraserToolProvider),
           currentToolType: ToolType.ERASER,
         );
         break;
       default:
-        ref
-            .read(brushToolStateProvider.notifier)
-            .updateBlendMode(BlendMode.srcOver);
+       
         state = state.copyWith(
           currentTool: ref.read(brushToolProvider),
           currentToolType: ToolType.BRUSH,

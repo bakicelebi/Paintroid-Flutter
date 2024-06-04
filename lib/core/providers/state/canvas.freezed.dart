@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'canvas_state_data.dart';
+part of 'canvas.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$CanvasStateData {
+mixin _$Canvas {
   ui.Image? get backgroundImage => throw _privateConstructorUsedError;
   ui.Image? get cachedImage => throw _privateConstructorUsedError;
   ui.Size get size => throw _privateConstructorUsedError;
@@ -23,15 +23,13 @@ mixin _$CanvasStateData {
   GraphicFactory get graphicFactory => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $CanvasStateDataCopyWith<CanvasStateData> get copyWith =>
-      throw _privateConstructorUsedError;
+  $CanvasCopyWith<Canvas> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CanvasStateDataCopyWith<$Res> {
-  factory $CanvasStateDataCopyWith(
-          CanvasStateData value, $Res Function(CanvasStateData) then) =
-      _$CanvasStateDataCopyWithImpl<$Res, CanvasStateData>;
+abstract class $CanvasCopyWith<$Res> {
+  factory $CanvasCopyWith(Canvas value, $Res Function(Canvas) then) =
+      _$CanvasCopyWithImpl<$Res, Canvas>;
   @useResult
   $Res call(
       {ui.Image? backgroundImage,
@@ -42,9 +40,9 @@ abstract class $CanvasStateDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CanvasStateDataCopyWithImpl<$Res, $Val extends CanvasStateData>
-    implements $CanvasStateDataCopyWith<$Res> {
-  _$CanvasStateDataCopyWithImpl(this._value, this._then);
+class _$CanvasCopyWithImpl<$Res, $Val extends Canvas>
+    implements $CanvasCopyWith<$Res> {
+  _$CanvasCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -86,11 +84,10 @@ class _$CanvasStateDataCopyWithImpl<$Res, $Val extends CanvasStateData>
 }
 
 /// @nodoc
-abstract class _$$CanvasStateDataImplCopyWith<$Res>
-    implements $CanvasStateDataCopyWith<$Res> {
-  factory _$$CanvasStateDataImplCopyWith(_$CanvasStateDataImpl value,
-          $Res Function(_$CanvasStateDataImpl) then) =
-      __$$CanvasStateDataImplCopyWithImpl<$Res>;
+abstract class _$$CanvasImplCopyWith<$Res> implements $CanvasCopyWith<$Res> {
+  factory _$$CanvasImplCopyWith(
+          _$CanvasImpl value, $Res Function(_$CanvasImpl) then) =
+      __$$CanvasImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,11 +99,11 @@ abstract class _$$CanvasStateDataImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CanvasStateDataImplCopyWithImpl<$Res>
-    extends _$CanvasStateDataCopyWithImpl<$Res, _$CanvasStateDataImpl>
-    implements _$$CanvasStateDataImplCopyWith<$Res> {
-  __$$CanvasStateDataImplCopyWithImpl(
-      _$CanvasStateDataImpl _value, $Res Function(_$CanvasStateDataImpl) _then)
+class __$$CanvasImplCopyWithImpl<$Res>
+    extends _$CanvasCopyWithImpl<$Res, _$CanvasImpl>
+    implements _$$CanvasImplCopyWith<$Res> {
+  __$$CanvasImplCopyWithImpl(
+      _$CanvasImpl _value, $Res Function(_$CanvasImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +115,7 @@ class __$$CanvasStateDataImplCopyWithImpl<$Res>
     Object? commandManager = null,
     Object? graphicFactory = null,
   }) {
-    return _then(_$CanvasStateDataImpl(
+    return _then(_$CanvasImpl(
       backgroundImage: freezed == backgroundImage
           ? _value.backgroundImage
           : backgroundImage // ignore: cast_nullable_to_non_nullable
@@ -145,8 +142,8 @@ class __$$CanvasStateDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CanvasStateDataImpl implements _CanvasStateData {
-  const _$CanvasStateDataImpl(
+class _$CanvasImpl implements _Canvas {
+  const _$CanvasImpl(
       {this.backgroundImage,
       this.cachedImage,
       required this.size,
@@ -166,14 +163,14 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
 
   @override
   String toString() {
-    return 'CanvasStateData(backgroundImage: $backgroundImage, cachedImage: $cachedImage, size: $size, commandManager: $commandManager, graphicFactory: $graphicFactory)';
+    return 'Canvas(backgroundImage: $backgroundImage, cachedImage: $cachedImage, size: $size, commandManager: $commandManager, graphicFactory: $graphicFactory)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CanvasStateDataImpl &&
+            other is _$CanvasImpl &&
             (identical(other.backgroundImage, backgroundImage) ||
                 other.backgroundImage == backgroundImage) &&
             (identical(other.cachedImage, cachedImage) ||
@@ -192,18 +189,17 @@ class _$CanvasStateDataImpl implements _CanvasStateData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CanvasStateDataImplCopyWith<_$CanvasStateDataImpl> get copyWith =>
-      __$$CanvasStateDataImplCopyWithImpl<_$CanvasStateDataImpl>(
-          this, _$identity);
+  _$$CanvasImplCopyWith<_$CanvasImpl> get copyWith =>
+      __$$CanvasImplCopyWithImpl<_$CanvasImpl>(this, _$identity);
 }
 
-abstract class _CanvasStateData implements CanvasStateData {
-  const factory _CanvasStateData(
+abstract class _Canvas implements Canvas {
+  const factory _Canvas(
       {final ui.Image? backgroundImage,
       final ui.Image? cachedImage,
       required final ui.Size size,
       required final CommandManager commandManager,
-      required final GraphicFactory graphicFactory}) = _$CanvasStateDataImpl;
+      required final GraphicFactory graphicFactory}) = _$CanvasImpl;
 
   @override
   ui.Image? get backgroundImage;
@@ -217,6 +213,6 @@ abstract class _CanvasStateData implements CanvasStateData {
   GraphicFactory get graphicFactory;
   @override
   @JsonKey(ignore: true)
-  _$$CanvasStateDataImplCopyWith<_$CanvasStateDataImpl> get copyWith =>
+  _$$CanvasImplCopyWith<_$CanvasImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

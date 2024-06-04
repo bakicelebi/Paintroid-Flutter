@@ -8,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/command_painter.dart';
 import 'package:paintroid/core/providers/object/canvas_dirty_notifier.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/canvas_provider.dart';
 import 'package:paintroid/ui/pages/workspace_page/components/drawing_surface/checkerboard_pattern.dart';
 
 class CanvasPainter extends ConsumerWidget {
@@ -16,7 +16,7 @@ class CanvasPainter extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final size = ref.watch(canvasStateProvider.select((state) => state.size));
+    final size = ref.watch(canvasProvider.select((state) => state.size));
     return Container(
       width: size.width,
       height: size.height,
@@ -40,7 +40,7 @@ class BackgroundLayer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final backgroundImage = ref.watch(
-      canvasStateProvider.select((state) => state.backgroundImage),
+      canvasProvider.select((state) => state.backgroundImage),
     );
     return RepaintBoundary(
       child: CheckerboardPattern(
@@ -57,7 +57,7 @@ class PaintingLayer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cachedImage = ref.watch(
-      canvasStateProvider.select((state) => state.cachedImage),
+      canvasProvider.select((state) => state.cachedImage),
     );
     final commands = ref.watch(commandManagerProvider);
 

@@ -6,19 +6,21 @@ part of 'hand_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$handToolHash() => r'0904f19a26fe0a1d18477ef1be781f3a42e82904';
+String _$handToolProviderHash() => r'34f0172b358624dd4f7cb94ad917e5ca971df2ea';
 
-/// See also [handTool].
-@ProviderFor(handTool)
-final handToolProvider = AutoDisposeProvider<HandTool>.internal(
-  handTool,
+/// See also [HandToolProvider].
+@ProviderFor(HandToolProvider)
+final handToolProvider =
+    AutoDisposeNotifierProvider<HandToolProvider, HandTool>.internal(
+  HandToolProvider.new,
   name: r'handToolProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$handToolHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$handToolProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef HandToolRef = AutoDisposeProviderRef<HandTool>;
+typedef _$HandToolProvider = AutoDisposeNotifier<HandTool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

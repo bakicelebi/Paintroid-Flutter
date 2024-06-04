@@ -6,19 +6,22 @@ part of 'eraser_tool_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$eraserToolHash() => r'0f4b6c747b0f67d0c93e029997abe8efbda136e2';
+String _$eraserToolProviderHash() =>
+    r'dfa8f7d268c354ada6e0e305a4fc56b83620434e';
 
-/// See also [eraserTool].
-@ProviderFor(eraserTool)
-final eraserToolProvider = AutoDisposeProvider<BrushTool>.internal(
-  eraserTool,
+/// See also [EraserToolProvider].
+@ProviderFor(EraserToolProvider)
+final eraserToolProvider =
+    AutoDisposeNotifierProvider<EraserToolProvider, BrushTool>.internal(
+  EraserToolProvider.new,
   name: r'eraserToolProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$eraserToolHash,
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$eraserToolProviderHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef EraserToolRef = AutoDisposeProviderRef<BrushTool>;
+typedef _$EraserToolProvider = AutoDisposeNotifier<BrushTool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

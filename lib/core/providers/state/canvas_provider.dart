@@ -13,28 +13,30 @@ import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/providers/object/device_service.dart';
-import 'package:paintroid/core/providers/state/canvas_state_data.dart';
+import 'package:paintroid/core/providers/state/canvas.dart';
 
-part 'canvas_state_provider.g.dart';
+part 'canvas_provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class CanvasState extends _$CanvasState {
+class CanvasProvider extends _$CanvasProvider {
   Size initialCanvasSize = Size.zero;
 
   @override
-  CanvasStateData build() {
+  Canvas build() {
     initialCanvasSize = ref.watch(IDeviceService.sizeProvider).when(
           data: (size) => size,
           error: (_, __) => widgets.WidgetsBinding.instance.platformDispatcher
               .views.first.physicalSize,
           loading: () => Size.zero,
         );
-    return CanvasStateData(
+    return Canvas(
       size: initialCanvasSize,
       commandManager: ref.watch(commandManagerProvider),
       graphicFactory: ref.watch(graphicFactoryProvider),
     );
   }
+
+  void invalidate() => ref.invalidateSelf();
 
   void setBackgroundImage(Image image) => state = state.copyWith(
         backgroundImage: image,

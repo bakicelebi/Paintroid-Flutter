@@ -23,7 +23,7 @@ import 'package:paintroid/core/providers/object/load_image_from_photo_library.da
 import 'package:paintroid/core/providers/object/render_image_for_export.dart';
 import 'package:paintroid/core/providers/object/save_as_catrobat_image.dart';
 import 'package:paintroid/core/providers/object/save_as_raster_image.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/canvas_provider.dart';
 import 'package:paintroid/core/providers/state/workspace_state_notifier.dart';
 import 'package:paintroid/core/utils/failure.dart';
 import 'package:paintroid/core/utils/load_image_failure.dart';
@@ -110,10 +110,11 @@ class IOHandler {
   Future<bool> newImage(BuildContext context, State state) async {
     final shouldContinue = await handleUnsavedChanges(context, state);
     if (!shouldContinue) return false;
-    ref.read(canvasStateProvider.notifier)
+    ref.read(canvasProvider.notifier)
       ..clearBackgroundImageAndResetDimensions()
       ..resetCanvasWithNewCommands([]);
     ref.read(WorkspaceState.provider.notifier).updateLastSavedCommandCount();
+    ref.read(canvasProvider.notifier).invalidate();
     return true;
   }
 
@@ -131,7 +132,7 @@ class IOHandler {
     final result = await loadImage();
     return result.when(
       ok: (img) async {
-        ref.read(canvasStateProvider.notifier)
+        ref.read(canvasProvider.notifier)
           ..setBackgroundImage(img)
           ..resetCanvasWithNewCommands([]);
         return true;
@@ -152,7 +153,7 @@ class IOHandler {
     final result = await loadImage(file);
     return result.when(
       ok: (imageFromFile) async {
-        final canvasStateNotifier = ref.read(canvasStateProvider.notifier);
+        final canvasStateNotifier = ref.read(canvasProvider.notifier);
         imageFromFile.rasterImage == null
             ? canvasStateNotifier.clearBackgroundImageAndResetDimensions()
             : canvasStateNotifier
@@ -230,7 +231,7 @@ class IOHandler {
   Future<File?> _saveAsCatrobatImage(
       CatrobatImageMetaData imageData, bool isAProject) async {
     final commands = ref.read(commandManagerProvider).history;
-    final canvasState = ref.read(canvasStateProvider);
+    final canvasState = ref.read(canvasProvider);
     final imgWidth = canvasState.size.width.toInt();
     final imgHeight = canvasState.size.height.toInt();
     Uint8List? backgroundImageData;

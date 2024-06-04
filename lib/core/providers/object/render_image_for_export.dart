@@ -12,7 +12,7 @@ import 'package:paintroid/core/commands/command_manager/command_manager.dart';
 import 'package:paintroid/core/commands/command_manager/command_manager_provider.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/canvas_provider.dart';
 
 class RenderImageForExport {
   final Ref _ref;
@@ -35,7 +35,7 @@ class RenderImageForExport {
     final backgroundCanvas =
         _graphicFactory.createCanvasWithRecorder(backgroundRecorder);
 
-    final canvasState = _ref.read(canvasStateProvider);
+    final canvasState = _ref.read(canvasProvider);
     final exportSize = canvasState.size;
 
     if (!keepTransparency) {

@@ -15,8 +15,8 @@ import 'package:paintroid/core/commands/graphic_factory/graphic_factory.dart';
 import 'package:paintroid/core/commands/graphic_factory/graphic_factory_provider.dart';
 import 'package:paintroid/core/models/image_with_pixel_info.dart';
 import 'package:paintroid/core/providers/object/render_image_for_export.dart';
-import 'package:paintroid/core/providers/state/canvas_state_data.dart';
-import 'package:paintroid/core/providers/state/canvas_state_provider.dart';
+import 'package:paintroid/core/providers/state/canvas.dart';
+import 'package:paintroid/core/providers/state/canvas_provider.dart';
 import 'render_image_for_export_test.mocks.dart';
 
 class FakePicture extends Fake implements Picture {

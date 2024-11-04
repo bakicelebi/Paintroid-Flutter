@@ -55,7 +55,9 @@ void main() {
       await tester.pumpWidget(sut);
       await UIInteraction.createNewImage();
       await UIInteraction.selectTool(ToolData.SHAPES.name);
-      await UIInteraction.selectCircleShapeTypeChip();
+      await UIInteraction.selectShapesToolShapeType(
+        WidgetFinder.circleShapeTypeChip,
+      );
 
       final (left, top, right, bottom) =
           await UIInteraction.getCircleShapeColors();
@@ -77,6 +79,64 @@ void main() {
       expect(topAfter, currentColor);
       expect(rightAfter, currentColor);
       expect(bottomAfter, currentColor);
+    });
+  }
+
+  if (testID == -1 || testID == 1) {
+    testWidgets('[SHAPES_TOOL]: test star shape', (WidgetTester tester) async {
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      await UIInteraction.selectTool(ToolData.SHAPES.name);
+      await UIInteraction.selectShapesToolShapeType(
+        WidgetFinder.starShapeTypeChip,
+      );
+
+      final colorsBefore = await UIInteraction.getStarShapeColors();
+
+      for (final color in colorsBefore) {
+        expect(color, Colors.transparent);
+      }
+
+      await UIInteraction.tapAt(CanvasPosition.center);
+      await UIInteraction.clickCheckmark();
+
+      final colorsAfter = await UIInteraction.getStarShapeColors();
+
+      final currentColor = UIInteraction.getCurrentColor();
+
+      for (final color in colorsAfter) {
+        expect(color, currentColor);
+      }
+    });
+  }
+
+  if (testID == -1 || testID == 1) {
+    testWidgets('[SHAPES_TOOL]: test heart shape', (WidgetTester tester) async {
+      UIInteraction.initialize(tester);
+      await tester.pumpWidget(sut);
+      await UIInteraction.createNewImage();
+      await UIInteraction.selectTool(ToolData.SHAPES.name);
+      await UIInteraction.selectShapesToolShapeType(
+        WidgetFinder.heartShapeTypeChip,
+      );
+
+      final colorsBefore = await UIInteraction.getHeartShapeColors();
+
+      for (final color in colorsBefore) {
+        expect(color, Colors.transparent);
+      }
+
+      await UIInteraction.tapAt(CanvasPosition.center);
+      await UIInteraction.clickCheckmark();
+
+      final colorsAfter = await UIInteraction.getHeartShapeColors();
+
+      final currentColor = UIInteraction.getCurrentColor();
+
+      for (final color in colorsAfter) {
+        expect(color, currentColor);
+      }
     });
   }
 }

@@ -24,6 +24,9 @@ class ShapesToolShapeTypeOptions extends ConsumerWidget {
               Wrap(
                 children: [
                   CustomActionChip(
+                    key: const ValueKey(
+                      WidgetIdentifier.squareShapeTypeChip,
+                    ),
                     hint: 'Square',
                     chipBackgroundColor:
                         shapesToolOptionsState.shapeType == ShapeType.square

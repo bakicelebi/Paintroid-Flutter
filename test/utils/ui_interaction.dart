@@ -1,3 +1,6 @@
+import 'dart:math';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -75,6 +78,32 @@ class UIInteraction {
     return (leftPixel, rightPixel, topPixel, bottomPixel);
   }
 
+  static Future<List<Color>> getStarShapeColors() async {
+    final shapesTool = getShapesTool();
+    final padding = getCurrentPaint().strokeWidth * sqrt2 / 2;
+    final radius = shapesTool.boundingBox.innerRadius - padding;
+    final path = shapesTool.boundingBox
+        .getStarPath(ShapesTool.starShapeNumberOfPoints, radius);
+    // trace number of points in star shape and calculate the colors of the corners
+    final points = extractPointsFromPath(path);
+    final colors = <Color>[];
+    for (final point in points) {
+      colors.add(await getPixelColor(point.dx.toInt(), point.dy.toInt()));
+    }
+    return colors;
+  }
+
+  static Future<List<Color>> getHeartShapeColors() async {
+    final shapesTool = getShapesTool();
+    final path = shapesTool.boundingBox.getHeartPath();
+    final points = extractPointsFromPath(path);
+    final colors = <Color>[];
+    for (final point in points) {
+      colors.add(await getPixelColor(point.dx.toInt(), point.dy.toInt()));
+    }
+    return colors;
+  }
+
   static Future<Color> getPixelColor(int x, int y) async {
     final container =
         ProviderScope.containerOf(tester.element(find.byType(App)));
@@ -99,6 +128,21 @@ class UIInteraction {
     final argbColor = (a << 24) | (r << 16) | (g << 8) | b;
     return Color(argbColor);
   }
+
+  static List<Offset> extractPointsFromPath(Path path) {
+  // Get the metrics for the path
+  final List<Offset> points = [];
+  for (PathMetric pathMetric in path.computeMetrics()) {
+    // Iterate through the path segments
+    for (double distance = 0; distance < pathMetric.length; distance += 1.0) {
+      Tangent? tangent = pathMetric.getTangentForOffset(distance);
+      if (tangent != null) {
+        points.add(tangent.position);
+      }
+    }
+  }
+  return points;
+}
 
   static Future<void> createNewImage() async {
     expect(WidgetFinder.newImageButton, findsOneWidget);
@@ -175,9 +219,9 @@ class UIInteraction {
     }
   }
 
-  static Future<void> selectCircleShapeTypeChip() async {
-    expect(WidgetFinder.circleShapeTypeChip, findsOneWidget);
-    await tester.tap(WidgetFinder.circleShapeTypeChip);
+  static Future<void> selectShapesToolShapeType(Finder shapeTypeFinder) async {
+    expect(shapeTypeFinder, findsOneWidget);
+    await tester.tap(shapeTypeFinder);
     await tester.pumpAndSettle();
   }
 

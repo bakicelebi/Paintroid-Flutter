@@ -24,4 +24,10 @@ class WidgetFinder {
 
   static final Finder circleShapeTypeChip =
       find.byKey(const ValueKey(WidgetIdentifier.circleShapeTypeChip));
+  static final Finder squareShapeTypeChip =
+      find.byKey(const ValueKey(WidgetIdentifier.squareShapeTypeChip));
+  static final Finder heartShapeTypeChip =
+      find.byKey(const ValueKey(WidgetIdentifier.heartShapeTypeChip));
+  static final Finder starShapeTypeChip =
+      find.byKey(const ValueKey(WidgetIdentifier.starShapeTypeChip));
 }

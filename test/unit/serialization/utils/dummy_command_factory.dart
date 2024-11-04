@@ -5,7 +5,9 @@ import 'package:paintroid/core/commands/command_implementation/command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/line_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/path_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/circle_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/heart_shape_command.dart';
 import 'package:paintroid/core/commands/command_implementation/graphic/shape/square_shape_command.dart';
+import 'package:paintroid/core/commands/command_implementation/graphic/shape/star_shape_command.dart';
 import 'package:paintroid/core/commands/path_with_action_history.dart';
 import 'package:paintroid/core/json_serialization/versioning/serializer_version.dart';
 import 'package:paintroid/core/json_serialization/versioning/version_strategy.dart';
@@ -85,6 +87,46 @@ class DummyCommandFactory {
       DummyVersionStrategy(circleShapeCommandVersion: version),
     );
     return commandFactory.createCircleShapeCommand(paint, radius, center);
+  }
+
+  static StarShapeCommand createStarShapeCommand(
+    Paint paint,
+    int numPoints,
+    double radius,
+    double angle,
+    Offset center, {
+    int version = Version.v1,
+  }) {
+    VersionStrategyManager.setStrategy(
+      DummyVersionStrategy(starShapeCommandVersion: version),
+    );
+    return commandFactory.createStarShapeCommand(
+      paint,
+      numPoints,
+      radius,
+      angle,
+      center,
+    );
+  }
+
+  static HeartShapeCommand createHeartShapeCommand(
+    Paint paint,
+    double width,
+    double height,
+    double angle,
+    Offset center, {
+    int version = Version.v1,
+  }) {
+    VersionStrategyManager.setStrategy(
+      DummyVersionStrategy(heartShapeCommandVersion: version),
+    );
+    return commandFactory.createHeartShapeCommand(
+      paint,
+      width,
+      height,
+      angle,
+      center,
+    );
   }
 
   static bool compareCommandLists(

@@ -84,7 +84,6 @@ class UIInteraction {
     final radius = shapesTool.boundingBox.innerRadius - padding;
     final path = shapesTool.boundingBox
         .getStarPath(ShapesTool.starShapeNumberOfPoints, radius);
-    // trace number of points in star shape and calculate the colors of the corners
     final points = extractPointsFromPath(path);
     final colors = <Color>[];
     for (final point in points) {
@@ -130,10 +129,8 @@ class UIInteraction {
   }
 
   static List<Offset> extractPointsFromPath(Path path) {
-  // Get the metrics for the path
   final List<Offset> points = [];
   for (PathMetric pathMetric in path.computeMetrics()) {
-    // Iterate through the path segments
     for (double distance = 0; distance < pathMetric.length; distance += 1.0) {
       Tangent? tangent = pathMetric.getTangentForOffset(distance);
       if (tangent != null) {
